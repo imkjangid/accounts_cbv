@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block login_register %}
+<form class="needs-validation" method="post" novalidate>
+    {% csrf_token %}
+    <h5>Login</h5>
+    <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control" name="username" id="username" aria-describedby="userHelp" required>
+        <div id="userHelp" class="form-text">We'll never share your data with anyone else.</div>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" name="password" class="form-control" id="password" required>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}

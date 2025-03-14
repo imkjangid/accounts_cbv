@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"a-file-icon-vscode.folderColor": "#727272",
+		"a-file-icon-vscode.activeIconPacks": [
+			"angular",
+			"rails"
+		],
+		"a-file-icon-vscode.saturation": 0.7,
+		"a-file-icon-vscode.opacity": 0.7
+	}
+}
