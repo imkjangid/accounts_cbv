@@ -7,6 +7,18 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import View
 from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView, DetailView
 
+class UserAuthView(LoginRequiredMixin):
+    login_url = "/login-gate/"
+
+    def dispatch(self, request, *args, **kwargs):
+        user = request.user
+        
+        if not user.is_authenticated:
+            messages.error(request, 'You must login')
+            return self.handle_no_permission()
+        else:
+            return self.get(request, *args, **kwargs)
+
 class LoginGate(View):
     model = User
     template_name = 'auth/login.html'
@@ -32,7 +44,7 @@ class RegistrationGate(TemplateView):
 class ProfileGate(TemplateView):
     template_name = 'users/profile.html'
 
-class ProfileView(LoginRequiredMixin, TemplateView):
+class ProfileView(UserAuthView, TemplateView):
     model = User
     template_name = 'users/profile.html'
 
@@ -45,9 +57,9 @@ class ProfileView(LoginRequiredMixin, TemplateView):
             
         # user = authenticate(username)
     
-    def get_context_data(self, **kwargs):
-        context = super(ProfileView, self).get_context_data(**kwargs)
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super(ProfileView, self).get_context_data(**kwargs)
+    #     return context
 
 class RegisterUser(CreateView):
     model = User
@@ -64,3 +76,8 @@ class RegisterUser(CreateView):
 class UpdateUser(UpdateView):
     model = User
     fields = ['__all__']
+
+class LogoutUser(View):
+    def get(self, request):
+        logout(request)
+        return HttpResponseRedirect('/login-gate/')
